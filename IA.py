@@ -67,32 +67,3 @@ def load_ppm(filename):
     
     return data, largeur, hauteur
 
-# Charger et préparer l'image
-matrix, largeur, hauteur = load_ppm("Image\\output_image_1737905985.ppm")
-matrix = np.array(matrix).reshape((hauteur, largeur, 3))
-image_entrée = matrix.flatten() / 255.0  # Normalisation entre 0 et 1
-
-# Initialiser le réseau
-reseau = Reseau(alpha=0.01)
-
-# Initialisation des poids et seuils (pour les tests, on met des valeurs simples)
-nbneurones_couche1 = 300
-nbneurones_couche2 = 10
-nbentrées_couche1 = len(image_entrée)
-
-# Exemple de poids et seuils aléatoires pour la couche 1 (300 neurones)
-poids_couche1 = np.random.rand(nbneurones_couche1, nbentrées_couche1)
-seuil_couche1 = np.random.rand(nbneurones_couche1)
-
-# Exemple de poids et seuils pour la couche 2 (10 neurones de sortie)
-poids_couche2 = np.random.rand(nbneurones_couche2, nbneurones_couche1)
-seuil_couche2 = np.random.rand(nbneurones_couche2)
-
-# Ajouter les couches au réseau
-reseau.ajouter_couche(nbneurones_couche1, nbentrées_couche1, poids_couche1, seuil_couche1)
-reseau.ajouter_couche(nbneurones_couche2, nbneurones_couche1, poids_couche2, seuil_couche2)
-
-# Propagation avant avec l'image
-output = reseau.propagation_avant(image_entrée)
-
-print(output)  # Afficher la sortie de la couche finale
